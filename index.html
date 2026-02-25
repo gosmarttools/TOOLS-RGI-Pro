@@ -27,7 +27,7 @@ button { margin-top: 20px; padding: 10px 25px; font-size: 16px; cursor: pointer;
 <li>Isi semua field form dengan informasi proyek Anda.</li>
 <li>Gunakan <b>@username</b> untuk owner dan team GitHub.</li>
 <li>Field license gunakan format: <b>MIT - https://opensource.org/licenses/MIT</b></li>
-<li>Live Project URL bersifat opsional, jika ingin menampilkan placeholder screenshot.</li>
+<li>Live Project URL bersifat opsional. Jika diisi, akan otomatis mengambil screenshot via ScreenshotAPI.net (API key dibutuhkan).</li>
 <li>Setelah klik Generate, preview Markdown & HTML akan muncul di bawah form.</li>
 <li>Download README.md untuk langsung upload ke repo GitHub Anda.</li>
 </ul>
@@ -159,7 +159,13 @@ async function generateReadme(){
     return avatar ? `![${t.trim()}](${avatar}) @${t.trim()}` : `@${t.trim()}`;
   }));
 
-  let liveScreenshot = liveproject ? `![Live Project Screenshot Placeholder](${logoDataURL})` : '';
+  // Screenshot via ScreenshotAPI.net
+  let liveScreenshot = '';
+  if(liveproject){
+    const apiKey = 'YOUR_SCREENSHOTAPI_KEY'; // ganti dengan API key ScreenshotAPI.net
+    liveScreenshot = `![Live Project Screenshot](https://api.screenshotapi.net/screenshot?token=${apiKey}&url=${encodeURIComponent(liveproject)}&width=800)`;
+  }
+
   let licenseBadge = licenseLink ? `![License](https://img.shields.io/badge/License-${licenseName.replace(/ /g,'%20')}-blue.svg)` : '';
 
   const md = `
