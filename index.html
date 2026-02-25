@@ -27,9 +27,12 @@ button { margin-top: 20px; padding: 10px 25px; font-size: 16px; cursor: pointer;
 <li>Isi semua field form dengan informasi proyek Anda.</li>
 <li>Gunakan <b>@username</b> untuk owner dan team GitHub.</li>
 <li>Field license gunakan format: <b>MIT - https://opensource.org/licenses/MIT</b></li>
-<li>Live Project URL bersifat opsional. Jika diisi, akan otomatis mengambil screenshot via ScreenshotAPI.net (API key dibutuhkan).</li>
+<li>Live Project URL bersifat opsional. Jika diisi, akan menampilkan **placeholder screenshot** dari folder <code>assets/</code>.</li>
 <li>Setelah klik Generate, preview Markdown & HTML akan muncul di bawah form.</li>
 <li>Download README.md untuk langsung upload ke repo GitHub Anda.</li>
+<li>Pastikan file screenshot placeholder sudah tersedia di <code>assets/screenshot-placeholder.png</code>.</li>
+<li>Untuk validitas informasi: isi semua field sesuai kondisi nyata proyek Anda.</li>
+<li>Untuk penerapan: upload README.md ke repo, pastikan logo dan screenshot tersedia di folder <code>assets/</code> atau gunakan link raw GitHub.</li>
 </ul>
 </div>
 
@@ -80,7 +83,7 @@ button { margin-top: 20px; padding: 10px 25px; font-size: 16px; cursor: pointer;
 <label>15. Roadmap</label>
 <textarea id="roadmap" placeholder="Rencana pengembangan"></textarea>
 
-<label>16. Live Project URL (opsional untuk screenshot)</label>
+<label>16. Live Project URL (opsional untuk screenshot placeholder)</label>
 <input type="text" id="liveproject" placeholder="https://linkliveproject.com">
 
 <label>17. Technical Blog & Updates URL</label>
@@ -159,12 +162,8 @@ async function generateReadme(){
     return avatar ? `![${t.trim()}](${avatar}) @${t.trim()}` : `@${t.trim()}`;
   }));
 
-  // Screenshot via ScreenshotAPI.net
-  let liveScreenshot = '';
-  if(liveproject){
-    const apiKey = 'YOUR_SCREENSHOTAPI_KEY'; // ganti dengan API key ScreenshotAPI.net
-    liveScreenshot = `![Live Project Screenshot](https://api.screenshotapi.net/screenshot?token=${apiKey}&url=${encodeURIComponent(liveproject)}&width=800)`;
-  }
+  // Screenshot placeholder manual
+  let liveScreenshot = liveproject ? `![Live Project Screenshot](assets/screenshot-placeholder.png)` : '';
 
   let licenseBadge = licenseLink ? `![License](https://img.shields.io/badge/License-${licenseName.replace(/ /g,'%20')}-blue.svg)` : '';
 
